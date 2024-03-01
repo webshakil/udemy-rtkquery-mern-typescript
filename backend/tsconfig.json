@@ -12,7 +12,8 @@
     "resolveJsonModule": true,             /* Enable import of JSON modules */
     "isolatedModules": true,               /* Enable transpilation and type-checking for each file as a separate process */
     "declaration": true,                   /* Generate declaration files (.d.ts) */
-    "noImplicitAny": true                  /* Raise error on expressions and declarations with an implied 'any' type */
+    "noImplicitAny": true ,                 /* Raise error on expressions and declarations with an implied 'any' type */
+    "types": ["node"]
   },
   "include": [
     "src/**/*.ts"                         /* Specify the files to include in the compilation */

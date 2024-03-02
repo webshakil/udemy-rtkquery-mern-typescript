@@ -18,7 +18,13 @@ mongoose_1.default.connect(mongoConnectUri)
     .catch(error => {
     console.error("Error connecting to MongoDB", error);
 });
-app.use((0, morgan_1.default)("DEV"));
+app.use("/server-health", (req, res) => {
+    res.status(200).json({
+        success: "Ok",
+        message: "Server health is fine"
+    });
+});
+app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 const port = process.env.PORT || 9000;
 app.listen(port, () => {

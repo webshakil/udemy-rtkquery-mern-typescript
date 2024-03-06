@@ -14,7 +14,6 @@ const register = (req, res, next) => {
         if (!password || password.length < 6) {
             return res.status(400).json({ error: "Password must be 6 character log" });
         }
-        const existingUser = await User.findOne({ email });
     }
     catch (err) {
         console.log(err);

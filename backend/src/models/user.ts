@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 
 export interface IUser extends Document{
+    _id:string,
     name: string,
     email:string,
     password:string,
@@ -26,6 +27,12 @@ const schema = new mongoose.Schema({
     phone:{
         type:String,
         required:[true, "Phone is required"]
+    },
+    password:{
+        type:String,
+        required: true,
+        min:6,
+        max:64
     },
     address:{
         type:String,

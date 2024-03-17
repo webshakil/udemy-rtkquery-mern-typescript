@@ -25,7 +25,7 @@ app.use("/server-health",(req, res)=>{
 })
 app.use("/api/v1/users", userRoutes)
 
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 7000;
 app.listen(port, ()=>{
     console.log(`Server is running on ${port}`)
 })

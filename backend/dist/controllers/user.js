@@ -3,11 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.register = void 0;
+exports.getAllusers = exports.login = exports.register = void 0;
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const user_1 = require("../models/user");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const error_1 = require("../middleware/error");
 const saltRounds = 10; // Adjust this based on your security needs
 const hashPassword = async (password) => {
     return bcryptjs_1.default.hash(password, saltRounds);
@@ -83,3 +84,33 @@ const login = async (req, res) => {
     }
 };
 exports.login = login;
+exports.getAllusers = (0, error_1.TryCatach)(async (req, res) => {
+    const search = req.query.search || "";
+    const page = Number(req.query.page || 1);
+    const limit = Number(req.query.limit || 5);
+    const searchRegExp = new RegExp('.*' + search + '.*', "i");
+    const filter = {
+        $or: [
+            { name: { $regex: searchRegExp } },
+            { email: { $regex: searchRegExp } },
+            { phone: { $regex: searchRegExp } }
+        ]
+    };
+    const option = { password: 0 };
+    const users = await user_1.User.find(filter, option).limit(limit).skip((page - 1) * 5);
+    const count = await user_1.User.find(filter).countDocuments();
+    if (!users) {
+        return res.status(404).json({ error: "No user found with the search term" });
+    }
+    return res.status(200).json({
+        message: "success",
+        users,
+        pagination: {
+            totalUser: count,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page,
+            previousPage: page - 1 > 0 ? page - 1 : null,
+            nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null // Corrected pagination calculation
+        }
+    });
+});

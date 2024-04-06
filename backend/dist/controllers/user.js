@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllusers = exports.login = exports.register = void 0;
+exports.deleteUser = exports.singleUser = exports.getAllusers = exports.login = exports.register = void 0;
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const user_1 = require("../models/user");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -49,6 +49,39 @@ const register = async (req, res, next) => {
     }
 };
 exports.register = register;
+// export const login = async (req: Request, res: Response) => {
+//   try {
+//     const { email, password } = req.body;
+//     if (!email) {
+//       return res.status(400).json({ error: 'Email is required' });
+//     }
+//     if (!password) {
+//       return res.status(400).json({ error: 'Password is required' });
+//     }
+//     const user = await User.findOne({ email });
+//     console.log(user)
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+//     const match = await bcrypt.compare(password, user.password);
+//     if (!match) {
+//       return res.status(401).json({ error: 'Wrong password' });
+//     }
+//     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
+//     res.status(200).json({
+//       user: {
+//         _id: user._id,
+//         name: user.name,
+//         email: user.email,
+//         role: user.role,
+//       },
+//       token
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -62,6 +95,10 @@ const login = async (req, res) => {
         console.log(user);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
+        }
+        console.log(user.password);
+        if (!user.password) {
+            return res.status(400).json({ error: 'User password is undefined' });
         }
         const match = await bcryptjs_1.default.compare(password, user.password);
         if (!match) {
@@ -112,5 +149,26 @@ exports.getAllusers = (0, error_1.TryCatach)(async (req, res) => {
             previousPage: page - 1 > 0 ? page - 1 : null,
             nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null // Corrected pagination calculation
         }
+    });
+});
+exports.singleUser = (0, error_1.TryCatach)(async (req, res, next) => {
+    const id = req.params.id;
+    const user = await user_1.User.findById(id);
+    if (!user)
+        return next(new utility_class_1.default("Invalid id", 400));
+    return res.status(200).json({
+        success: true,
+        user,
+    });
+});
+exports.deleteUser = (0, error_1.TryCatach)(async (req, res, next) => {
+    const id = req.params.id;
+    const user = await user_1.User.findById(id);
+    if (!user)
+        return next(new utility_class_1.default("Invalid id", 400));
+    await user.deleteOne();
+    return res.status(200).json({
+        success: true,
+        message: "User deleted successfull"
     });
 });

@@ -202,3 +202,31 @@ export const deleteUser = TryCatach(async(req, res, next)=>{
   })
 })
 
+export const updateUser = TryCatach(async(req, res)=>{
+  const userId = req.params.id;
+  const {isBanned, role}= req.body;
+
+  try{
+    const user = await User.findById(userId);
+    if(!user){
+      return res.status(404).json({error: 'User not found'})
+    }
+    if(isBanned!=undefined){
+      user.isBanned= isBanned
+    }
+    if(role){
+      user.role= role;
+    }
+    await User.findOneAndUpdate({_id:userId}, user);
+    const updateUser = await User.findById(userId);
+    if(!updateUser){
+      return res.status(500).json({error:"Failed to fetch updated user data"})
+    }
+    res.json({user: updateUser})
+  }catch(error){
+    console.error('Error updating user:', error);
+    res.status(500).json({error:"Internal server error"})
+  }
+
+})
+

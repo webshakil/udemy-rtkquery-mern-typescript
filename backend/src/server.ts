@@ -4,6 +4,7 @@ import mongoUri from './config/connectDB';
 import mongoose from 'mongoose';
 import morgan from 'morgan'
 import userRoutes from './routes/user'
+import productRoutes from './routes/product'
 dotenv.config();
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/server-health",(req, res)=>{
   })
 })
 app.use("/api/v1/users", userRoutes)
+app.use("/api/v1/product", productRoutes)
 
 const port = process.env.PORT || 7000;
 app.listen(port, ()=>{

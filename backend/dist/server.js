@@ -9,6 +9,7 @@ const connectDB_1 = __importDefault(require("./config/connectDB"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const morgan_1 = __importDefault(require("morgan"));
 const user_1 = __importDefault(require("./routes/user"));
+const product_1 = __importDefault(require("./routes/product"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const mongoConnectUri = (0, connectDB_1.default)();
@@ -28,6 +29,7 @@ app.use("/server-health", (req, res) => {
     });
 });
 app.use("/api/v1/users", user_1.default);
+app.use("/api/v1/product", product_1.default);
 const port = process.env.PORT || 7000;
 app.listen(port, () => {
     console.log(`Server is running on ${port}`);

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.singleUser = exports.getAllusers = exports.login = exports.register = void 0;
+exports.updateUser = exports.deleteUser = exports.singleUser = exports.getAllusers = exports.login = exports.register = void 0;
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const user_1 = require("../models/user");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -171,4 +171,30 @@ exports.deleteUser = (0, error_1.TryCatach)(async (req, res, next) => {
         success: true,
         message: "User deleted successfull"
     });
+});
+exports.updateUser = (0, error_1.TryCatach)(async (req, res) => {
+    const userId = req.params.id;
+    const { isBanned, role } = req.body;
+    try {
+        const user = await user_1.User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        if (isBanned != undefined) {
+            user.isBanned = isBanned;
+        }
+        if (role) {
+            user.role = role;
+        }
+        await user_1.User.findOneAndUpdate({ _id: userId }, user);
+        const updateUser = await user_1.User.findById(userId);
+        if (!updateUser) {
+            return res.status(500).json({ error: "Failed to fetch updated user data" });
+        }
+        res.json({ user: updateUser });
+    }
+    catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });

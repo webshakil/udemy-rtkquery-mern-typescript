@@ -18,7 +18,7 @@ const storage = multer_1.default.diskStorage({
 });
 // File type validation
 const allowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
-//const allowedFileTypes = ["image/png" ];
+//const allowedFileTypes = [ "image/png", "image/jpg"];
 const fileFilter = (req, file, callback) => {
     if (allowedFileTypes.includes(file.mimetype)) {
         callback(null, true);
@@ -28,7 +28,7 @@ const fileFilter = (req, file, callback) => {
     }
 };
 // File size validation (in bytes)
-const maxFileSize = 5 * 1024 * 1024; // 5MB
+const maxFileSize = 1 * 1024 * 1024; // 5MB
 //const maxFileSize = 10; // 5MB
 const limits = {
     fileSize: maxFileSize,

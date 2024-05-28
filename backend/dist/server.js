@@ -10,6 +10,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const morgan_1 = __importDefault(require("morgan"));
 const user_1 = __importDefault(require("./routes/user"));
 const product_1 = __importDefault(require("./routes/product"));
+const body_parser_1 = __importDefault(require("body-parser"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const mongoConnectUri = (0, connectDB_1.default)();
@@ -22,6 +23,8 @@ mongoose_1.default.connect(mongoConnectUri)
 });
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
+app.use(body_parser_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use("/server-health", (req, res) => {
     res.status(200).json({
         success: "Ok",

@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import morgan from 'morgan'
 import userRoutes from './routes/user'
 import productRoutes from './routes/product'
+import bodyParser from 'body-parser';
 dotenv.config();
 const app = express();
 
@@ -18,6 +19,9 @@ mongoose.connect(mongoConnectUri)
   });
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/server-health",(req, res)=>{
   res.status(200).json({
     success:"Ok",

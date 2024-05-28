@@ -4,8 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const auth_1 = require("../middleware/auth");
+const multer_1 = __importDefault(require("../middleware/multer"));
+const product_1 = require("../controllers/product");
 const router = express_1.default.Router();
-//router.post("/new", requireSignIn, isAdmin, singleUpload, newProduct) ;
+router.post("/new", auth_1.requireSignIn, auth_1.isAdmin, multer_1.default, product_1.newProduct);
 //router.get("/all")
 //router.get("latest", getLatestProducts)
 //router.get("/categories", getAllCategories)

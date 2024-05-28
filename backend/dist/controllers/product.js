@@ -34,6 +34,6 @@ exports.newProduct = (0, error_1.TryCatach)(async (req, res, next) => {
     });
     return res.status(201).json({
         success: true,
-        message: "Product created successfully"
+        message: "Product created successfully!!"
     });
 });

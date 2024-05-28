@@ -63,7 +63,7 @@ export const newProduct = TryCatach(
 
         return res.status(201).json({
             success: true,
-            message: "Product created successfully"
+            message: "Product created successfully!!"
         });
     }
 );

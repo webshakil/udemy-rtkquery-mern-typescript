@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleProduct = exports.getAllProducts = exports.getAllCategories = exports.getLatestProducts = exports.newProduct = void 0;
+exports.updateProduct = exports.getSingleProduct = exports.getAllProducts = exports.getAllCategories = exports.getLatestProducts = exports.newProduct = void 0;
 const error_1 = require("../middleware/error");
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const fs_1 = require("fs");
@@ -61,5 +61,43 @@ exports.getSingleProduct = (0, error_1.TryCatach)(async (req, res, next) => {
     return res.status(200).json({
         success: true,
         product
+    });
+});
+exports.updateProduct = (0, error_1.TryCatach)(async (req, res, next) => {
+    const { id } = req.params;
+    const { name, price, stock, category } = req.body;
+    const photo = req.file;
+    const product = await product_1.Product.findById(id);
+    if (!product)
+        return next(new utility_class_1.default("Product not found", 404));
+    const updatedFileds = {};
+    if (photo) {
+        (0, fs_1.rm)(product.photo, () => {
+            console.log("Old photo deleted");
+        });
+        product.photo = photo.path;
+        updatedFileds.photo = product.photo;
+    }
+    if (name) {
+        product.name = name;
+        updatedFileds.name = product.name;
+    }
+    if (price) {
+        product.price = price;
+        updatedFileds.price = product.price;
+    }
+    if (stock) {
+        product.stock = stock;
+        updatedFileds.stock = product.stock;
+    }
+    if (category) {
+        product.category = category;
+        updatedFileds.category = product.category;
+    }
+    await product.save();
+    return res.status(200).json({
+        success: true,
+        message: "Product updated successfully",
+        updatedFileds
     });
 });

@@ -69,3 +69,41 @@ export const getSingleProduct =TryCatach(async(req, res, next)=>{
     })
 })
 
+export const updateProduct= TryCatach(async(req, res, next)=>{
+    const {id } = req.params;
+    const {name, price, stock, category} =req.body;
+    const photo = req.file
+    const product = await Product.findById(id);
+    if(!product) return next(new ErrorHandler("Product not found", 404))
+    const updatedFileds: Record<string, any>={}
+    if (photo ){
+        rm(product.photo!,()=>{
+            console.log("Old photo deleted")
+        })
+        product.photo =photo.path
+        updatedFileds.photo = product.photo
+    }
+    if(name){
+        product.name = name;
+        updatedFileds.name = product.name
+    }
+    if(price){
+        product.price = price;
+        updatedFileds.price = product.price
+    }
+    if(stock){
+        product.stock = stock;
+        updatedFileds.stock = product.stock
+    }
+    if(category){
+        product.category = category;
+        updatedFileds.category = product.category
+    }
+    await product.save();
+    return res.status(200).json({
+        success: true,
+        message: "Product updated successfully",
+        updatedFileds
+    })
+})
+

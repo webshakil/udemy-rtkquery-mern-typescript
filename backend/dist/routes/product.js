@@ -11,8 +11,8 @@ const router = express_1.default.Router();
 router.post("/new", auth_1.requireSignIn, auth_1.isAdmin, multer_1.default, product_1.newProduct);
 //router.get("/all")
 //router.get("latest", getLatestProducts)
-// router.get("/latest",getLatestProducts)
-// router.get("/categories", getAllCategories)
-// router.get("/all-products", getAllProducts)
-// router.get("/:id", getSingleProduct)
+router.get("/latest", product_1.getLatestProducts);
+router.get("/categories", product_1.getAllCategories);
+router.get("/all-products", product_1.getAllProducts);
+router.get("/:id", product_1.getSingleProduct);
 exports.default = router;

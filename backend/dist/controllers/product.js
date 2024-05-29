@@ -1,14 +1,9 @@
 "use strict";
-// import { NextFunction,Request,Response } from "express";
-// import { TryCatach } from "../middleware/error";
-// import ErrorHandler from "../utils/utility-class";
-// import { rm } from "fs";
-// import { Product } from "../models/product";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newProduct = void 0;
+exports.getSingleProduct = exports.getAllProducts = exports.getAllCategories = exports.getLatestProducts = exports.newProduct = void 0;
 const error_1 = require("../middleware/error");
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const fs_1 = require("fs");
@@ -35,5 +30,36 @@ exports.newProduct = (0, error_1.TryCatach)(async (req, res, next) => {
     return res.status(201).json({
         success: true,
         message: "Product created successfully!!"
+    });
+});
+exports.getLatestProducts = (0, error_1.TryCatach)(async (req, res, next) => {
+    const products = await product_1.Product.find({}).sort({ createdAt: -1 }).limit(5);
+    return res.status(200).json({
+        success: true,
+        products
+    });
+});
+exports.getAllCategories = (0, error_1.TryCatach)(async (req, res, next) => {
+    const categories = await product_1.Product.distinct("category");
+    return res.status(200).json({
+        success: true,
+        categories
+    });
+});
+exports.getAllProducts = (0, error_1.TryCatach)(async (req, res, next) => {
+    const products = await product_1.Product.find({});
+    return res.status(200).json({
+        success: true,
+        products
+    });
+});
+exports.getSingleProduct = (0, error_1.TryCatach)(async (req, res, next) => {
+    const id = req.params.id;
+    const product = await product_1.Product.findById(id);
+    if (!product)
+        return next(new utility_class_1.default("Product Not Found", 404));
+    return res.status(200).json({
+        success: true,
+        product
     });
 });

@@ -16,4 +16,5 @@ router.get("/categories", product_1.getAllCategories);
 router.get("/all-products", product_1.getAllProducts);
 router.get("/:id", product_1.getSingleProduct);
 router.put("/:id", auth_1.requireSignIn, auth_1.isAdmin, multer_1.default, product_1.updateProduct);
+router.delete("/:id", auth_1.requireSignIn, auth_1.isAdmin, product_1.deleteProduct);
 exports.default = router;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProduct = exports.getSingleProduct = exports.getAllProducts = exports.getAllCategories = exports.getLatestProducts = exports.newProduct = void 0;
+exports.deleteProduct = exports.updateProduct = exports.getSingleProduct = exports.getAllProducts = exports.getAllCategories = exports.getLatestProducts = exports.newProduct = void 0;
 const error_1 = require("../middleware/error");
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const fs_1 = require("fs");
@@ -100,5 +100,18 @@ exports.updateProduct = (0, error_1.TryCatach)(async (req, res, next) => {
         success: true,
         message: "Product updated successfully",
         updatedFileds
+    });
+});
+exports.deleteProduct = (0, error_1.TryCatach)(async (req, res, next) => {
+    const product = await product_1.Product.findById(req.params.id);
+    if (!product)
+        return next(new utility_class_1.default("Product not found", 404));
+    (0, fs_1.rm)(product.photo, () => {
+        console.log("Product photo deleted");
+    });
+    await product.deleteOne();
+    return res.status(200).json({
+        success: true,
+        message: "Product deleted successfully!"
     });
 });

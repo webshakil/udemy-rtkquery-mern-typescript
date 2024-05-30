@@ -94,6 +94,7 @@ exports.updateProduct = (0, error_1.TryCatach)(async (req, res, next) => {
         product.category = category;
         updatedFileds.category = product.category;
     }
+    console.log("updatedFileds===>", updatedFileds);
     await product.save();
     return res.status(200).json({
         success: true,

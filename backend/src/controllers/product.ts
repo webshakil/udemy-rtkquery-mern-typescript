@@ -76,6 +76,7 @@ export const updateProduct= TryCatach(async(req, res, next)=>{
     const product = await Product.findById(id);
     if(!product) return next(new ErrorHandler("Product not found", 404))
     const updatedFileds: Record<string, any>={}
+       
     if (photo ){
         rm(product.photo!,()=>{
             console.log("Old photo deleted")
@@ -99,6 +100,7 @@ export const updateProduct= TryCatach(async(req, res, next)=>{
         product.category = category;
         updatedFileds.category = product.category
     }
+    console.log("updatedFileds===>", updatedFileds)
     await product.save();
     return res.status(200).json({
         success: true,

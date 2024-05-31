@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import morgan from 'morgan'
 import userRoutes from './routes/user'
 import productRoutes from './routes/product'
+import orderRoutes from './routes/order'
 import bodyParser from 'body-parser';
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ app.use("/server-health",(req, res)=>{
 })
 app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/product", productRoutes)
+app.use("/api/v1/order", orderRoutes)
 
 const port = process.env.PORT || 7000;
 app.listen(port, ()=>{

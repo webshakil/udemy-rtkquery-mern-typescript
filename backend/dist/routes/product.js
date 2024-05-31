@@ -9,7 +9,7 @@ const multer_1 = __importDefault(require("../middleware/multer"));
 const product_1 = require("../controllers/product");
 const router = express_1.default.Router();
 router.post("/new", auth_1.requireSignIn, auth_1.isAdmin, multer_1.default, product_1.newProduct);
-//router.get("/all")
+router.get("/all", product_1.getAllProductsWithFilter);
 //router.get("latest", getLatestProducts)
 router.get("/latest", product_1.getLatestProducts);
 router.get("/categories", product_1.getAllCategories);

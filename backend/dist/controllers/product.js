@@ -3,11 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.updateProduct = exports.getSingleProduct = exports.getAllProducts = exports.getAllCategories = exports.getLatestProducts = exports.newProduct = void 0;
+exports.getAllProductsWithFilter = exports.deleteProduct = exports.updateProduct = exports.getSingleProduct = exports.getAllProducts = exports.getAllCategories = exports.getLatestProducts = exports.newProduct = void 0;
 const error_1 = require("../middleware/error");
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const fs_1 = require("fs");
 const product_1 = require("../models/product");
+//import { BaseQuery } from "../types/types";
 exports.newProduct = (0, error_1.TryCatach)(async (req, res, next) => {
     const { name, price, stock, category } = req.body;
     const photo = req.file;
@@ -113,5 +114,38 @@ exports.deleteProduct = (0, error_1.TryCatach)(async (req, res, next) => {
     return res.status(200).json({
         success: true,
         message: "Product deleted successfully!"
+    });
+});
+exports.getAllProductsWithFilter = (0, error_1.TryCatach)(async (req, res, next) => {
+    const { search, sort, category, price } = req.query;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(process.env.PRODUCT_PER_PAGE) || 4;
+    //pagination
+    const skip = (page - 1) * limit;
+    const baseQuery = {};
+    if (search)
+        baseQuery.name = {
+            $regex: search,
+            $options: "i",
+        };
+    if (price)
+        baseQuery.price = {
+            $lte: Number(price),
+        };
+    if (category)
+        baseQuery.category = category;
+    const productsPromise = product_1.Product.find(baseQuery)
+        .sort(sort && { price: sort === "asc" ? 1 : -1 })
+        .limit(limit)
+        .skip(skip);
+    const [products, filteredOnlyProduct] = await Promise.all([
+        productsPromise,
+        product_1.Product.find(baseQuery),
+    ]);
+    const totalPage = Math.ceil(filteredOnlyProduct.length / limit);
+    return res.status(200).json({
+        success: true,
+        products,
+        totalPage,
     });
 });

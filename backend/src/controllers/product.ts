@@ -3,6 +3,8 @@ import { TryCatach } from "../middleware/error";
 import ErrorHandler from "../utils/utility-class";
 import { rm } from "fs";
 import { Product } from "../models/product";
+import { BaseQuery, SearchRequestQuery } from "../types/types";
+//import { BaseQuery } from "../types/types";
 
 export const newProduct = TryCatach(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -122,3 +124,46 @@ export const deleteProduct = TryCatach(async(req, res, next)=>{
         })
 })
 
+export const getAllProductsWithFilter = TryCatach(
+    async (req: Request<{}, {}, {}, SearchRequestQuery>, res, next) => {
+      const { search, sort, category, price } = req.query;
+      const page = Number(req.query.page) || 1;
+      const limit = Number(process.env.PRODUCT_PER_PAGE) || 4;
+      //pagination
+      const skip = (page - 1) * limit;
+  
+      const baseQuery: BaseQuery = {};
+  
+      if (search)
+        baseQuery.name = {
+          $regex: search,
+          $options: "i",
+        };
+  
+      if (price)
+        baseQuery.price = {
+          $lte: Number(price),
+        };
+  
+      if (category) baseQuery.category = category;
+  
+      const productsPromise = Product.find(baseQuery)
+        .sort(sort && { price: sort === "asc" ? 1 : -1 })
+        .limit(limit)
+        .skip(skip);
+  
+      const [products, filteredOnlyProduct] = await Promise.all([
+        productsPromise,
+        Product.find(baseQuery),
+      ]);
+  
+      const totalPage = Math.ceil(filteredOnlyProduct.length / limit);
+  
+      return res.status(200).json({
+        success: true,
+        products,
+        totalPage,
+      });
+    }
+  );
+  

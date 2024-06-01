@@ -1,8 +1,9 @@
 import express from 'express'
 import { isAdmin, requireSignIn } from '../middleware/auth';
+import { newOrder } from '../controllers/order';
 const router = express.Router()
 
-//router.post('/new', newOrders);
+router.post('/new', newOrder);
 //router.get("/all", requireSignIn, isAdmin, allOrders)
 //router.get("/:id", requireSignIn, isAdmin, singleOrder)
 //router.get("/:id", requireSignIn, isAdmin, processOrder)

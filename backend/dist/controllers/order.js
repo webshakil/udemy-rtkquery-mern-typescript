@@ -11,7 +11,7 @@ const features_1 = require("../utils/features");
 exports.newOrder = (0, error_1.TryCatach)(async (req, res, next) => {
     const { shippingInfo, orderItems, user, subtotal, tax, shippingCharges, discount, total } = req.body;
     if (!shippingInfo || !orderItems || !user || !subtotal || !tax || !total) {
-        return next(new utility_class_1.default("Please Enter All Fields", 200));
+        return next(new utility_class_1.default("Please Enter All Fields", 400));
     }
     const order = await order_1.Order.create({
         shippingInfo,
@@ -29,3 +29,36 @@ exports.newOrder = (0, error_1.TryCatach)(async (req, res, next) => {
         message: "Order Placed Successfully"
     });
 });
+// export const newOrder = TryCatach(
+//     async (req: Request<{}, {}, NewOrderRequestBody>, res, next) => {
+//         console.log("Request body:", req.body);
+//         const {
+//             shippingInfo,
+//             orderItems,
+//             user,
+//             subtotal,
+//             tax,
+//             shippingCharges,
+//             discount,
+//             total
+//         } = req.body;
+//         if (!shippingInfo || !orderItems.length || !user || subtotal === undefined || tax === undefined || total === undefined) {
+//             return next(new ErrorHandler("Please Enter All Fields", 400));
+//         }
+//         const order = await Order.create({
+//             shippingInfo,
+//             orderItems,
+//             user,
+//             subtotal,
+//             tax,
+//             shippingCharges,
+//             discount,
+//             total
+//         });
+//         await reduceStock(orderItems);
+//         return res.status(201).json({
+//             success: true,
+//             message: "Order Placed Successfully"
+//         });
+//     }
+// );

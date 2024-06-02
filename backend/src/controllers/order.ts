@@ -50,7 +50,8 @@ export const myOrders = TryCatach(async(req, res, next)=>{
 })
 
 export const allOrders = TryCatach(async(req, res, next)=>{
-    const orders = await Order.find().populate("user", "name");
+   const orders = await Order.find().populate("user", "name");
+    //const orders = await Order.find()
     return res.status(200).json({
         success: true,
         orders,

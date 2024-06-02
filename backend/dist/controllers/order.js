@@ -39,6 +39,7 @@ exports.myOrders = (0, error_1.TryCatach)(async (req, res, next) => {
 });
 exports.allOrders = (0, error_1.TryCatach)(async (req, res, next) => {
     const orders = await order_1.Order.find().populate("user", "name");
+    //const orders = await Order.find()
     return res.status(200).json({
         success: true,
         orders,

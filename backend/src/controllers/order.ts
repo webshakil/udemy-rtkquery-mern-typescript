@@ -40,40 +40,28 @@ export const newOrder = TryCatach(
    
 )
 
-// export const newOrder = TryCatach(
-//     async (req: Request<{}, {}, NewOrderRequestBody>, res, next) => {
-//         console.log("Request body:", req.body);
+export const myOrder = TryCatach(async(req, res, next)=>{
+    const{id: user} = req.query;
+    const orders = await Order.find({user});
+    return res.status(200).json({
+        success:true,
+        orders,
+    })
+})
 
-//         const {
-//             shippingInfo,
-//             orderItems,
-//             user,
-//             subtotal,
-//             tax,
-//             shippingCharges,
-//             discount,
-//             total
-//         } = req.body;
+export const allOrders = TryCatach(async(req, res, next)=>{
+    const orders = await Order.find().populate("user", "name");
+    return res.status(200).json({
+        success: true,
+        orders,
+    })
+})
+export const getSingleOrder = TryCatach(async(req, res, next)=>{
+    const {id} =req.params;
+    const order = await Order.findById(id).populate("user", "name");
+    return res.status(200).json({
+        success: true,
+        order,
+    })
+})
 
-//         if (!shippingInfo || !orderItems.length || !user || subtotal === undefined || tax === undefined || total === undefined) {
-//             return next(new ErrorHandler("Please Enter All Fields", 400));
-//         }
-
-//         const order = await Order.create({
-//             shippingInfo,
-//             orderItems,
-//             user,
-//             subtotal,
-//             tax,
-//             shippingCharges,
-//             discount,
-//             total
-//         });
-
-//         await reduceStock(orderItems);
-//         return res.status(201).json({
-//             success: true,
-//             message: "Order Placed Successfully"
-//         });
-//     }
-// );

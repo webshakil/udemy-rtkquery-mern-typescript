@@ -40,7 +40,7 @@ export const newOrder = TryCatach(
    
 )
 
-export const myOrder = TryCatach(async(req, res, next)=>{
+export const myOrders = TryCatach(async(req, res, next)=>{
     const{id: user} = req.query;
     const orders = await Order.find({user});
     return res.status(200).json({

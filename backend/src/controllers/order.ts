@@ -66,3 +66,18 @@ export const getSingleOrder = TryCatach(async(req, res, next)=>{
     })
 })
 
+export const deleteOrder= TryCatach(async(req, res, next)=>{
+    const {id} = req.params;
+    const order = await Order.findById(id);
+    if(!order) return next(new ErrorHandler("Order Not Found", 404))
+        await order.deleteOne();
+    return res.status(200).json({
+        success: true,
+        message:"Order Deelted Successfully"
+    })
+})
+
+
+
+
+

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleOrder = exports.allOrders = exports.myOrders = exports.newOrder = void 0;
+exports.deleteOrder = exports.getSingleOrder = exports.allOrders = exports.myOrders = exports.newOrder = void 0;
 const error_1 = require("../middleware/error");
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const order_1 = require("../models/order");
@@ -51,5 +51,16 @@ exports.getSingleOrder = (0, error_1.TryCatach)(async (req, res, next) => {
     return res.status(200).json({
         success: true,
         order,
+    });
+});
+exports.deleteOrder = (0, error_1.TryCatach)(async (req, res, next) => {
+    const { id } = req.params;
+    const order = await order_1.Order.findById(id);
+    if (!order)
+        return next(new utility_class_1.default("Order Not Found", 404));
+    await order.deleteOne();
+    return res.status(200).json({
+        success: true,
+        message: "Order Deelted Successfully"
     });
 });

@@ -12,5 +12,5 @@ router.get("/my", order_1.myOrders);
 router.get("/all", auth_1.requireSignIn, auth_1.isAdmin, order_1.allOrders);
 router.get("/:id", auth_1.requireSignIn, auth_1.isAdmin, order_1.getSingleOrder);
 //router.get("/:id", requireSignIn, isAdmin, processOrder)
-//router.get("/:id", requireSignIn, isAdmin, deleteOrder)
+router.delete("/:id", auth_1.requireSignIn, auth_1.isAdmin, order_1.deleteOrder);
 exports.default = router;

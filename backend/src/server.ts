@@ -8,9 +8,10 @@ import productRoutes from './routes/product'
 import orderRoutes from './routes/order'
 import paymentRoutes from './routes/payment'
 import bodyParser from 'body-parser';
+import Stripe from 'stripe';
 dotenv.config();
 const app = express();
-
+const stripeKey = process.env.STRIPE_KEY || ""
 const mongoConnectUri = mongoUri();
 mongoose.connect(mongoConnectUri)
   .then(() => {
@@ -19,6 +20,7 @@ mongoose.connect(mongoConnectUri)
   .catch(error => {
     console.error("Error connecting to MongoDB", error);
   });
+export const stripe = new Stripe(stripeKey);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(bodyParser.json())

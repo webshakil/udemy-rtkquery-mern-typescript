@@ -22,7 +22,7 @@ export const applyDiscount= TryCatach(async(req, res, next)=>{
         discount: discount.amount
     })
 })
-export const allCoupon = TryCatach(async(req, res, next)=>{
+export const allCoupons = TryCatach(async(req, res, next)=>{
     const coupons = await Coupon.find({});
     return res.status(200).json({
         success: true,
@@ -30,7 +30,7 @@ export const allCoupon = TryCatach(async(req, res, next)=>{
     })
 })
 
-export const delteCopons = TryCatach(async(req, res, next)=>{
+export const deleteCopons = TryCatach(async(req, res, next)=>{
     const {id}= req.params
     const coupon = await Coupon.findByIdAndDelete(id);
     if(!coupon ) return next(new ErrorHandler("Invalid coupon id", 400))

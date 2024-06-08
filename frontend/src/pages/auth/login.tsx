@@ -4,6 +4,7 @@ import { useLoginMutation } from "../../redux/api/userAPI";
 import { userExist, userNotExist } from "../../redux/reducer/userReducer";
 import { useDispatch } from "react-redux";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { Link } from "react-router-dom";
 const LoginPage = () => {
   const [formData, setFormData]= useState({
     email:"",
@@ -109,9 +110,9 @@ const LoginPage = () => {
             </label>
           </div>
           <div className="text-sm">
-            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link to="" className="font-medium text-indigo-600 hover:text-indigo-500">
               Forgot your password?
-            </a>
+            </Link>
           </div>
         </div>
         <div>

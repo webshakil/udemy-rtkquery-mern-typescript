@@ -6,7 +6,7 @@ import { User } from "../../types/types";
 export const userAPI = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_SERVER}/api/v1/user/`,
+    baseUrl: `${import.meta.env.VITE_SERVER}/api/v1/users`,
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
       const token = state.userReducer.token;

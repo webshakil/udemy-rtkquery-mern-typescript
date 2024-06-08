@@ -9,6 +9,7 @@ import orderRoutes from './routes/order'
 import paymentRoutes from './routes/payment'
 import bodyParser from 'body-parser';
 import Stripe from 'stripe';
+import cors from 'cors'
 dotenv.config();
 const app = express();
 const stripeKey = process.env.STRIPE_KEY || ""
@@ -25,7 +26,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cors())
 app.use("/server-health",(req, res)=>{
   res.status(200).json({
     success:"Ok",

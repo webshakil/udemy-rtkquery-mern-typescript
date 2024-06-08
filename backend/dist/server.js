@@ -15,6 +15,7 @@ const order_1 = __importDefault(require("./routes/order"));
 const payment_1 = __importDefault(require("./routes/payment"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const stripe_1 = __importDefault(require("stripe"));
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const stripeKey = process.env.STRIPE_KEY || "";
@@ -31,6 +32,7 @@ app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use((0, cors_1.default)());
 app.use("/server-health", (req, res) => {
     res.status(200).json({
         success: "Ok",

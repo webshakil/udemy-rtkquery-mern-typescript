@@ -8,6 +8,10 @@ import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import { Toaster } from 'react-hot-toast'
 import LoginPage from './pages/auth/login'
+import PrivateRoute from './components/routes/PrivateRoutes'
+import UserDashboard from './pages/user/Dashboard'
+import AdminRoute from './components/routes/AdminRoute'
+import AdminDashboard from './pages/admin/Dashboard'
 
 function App() {
 
@@ -25,6 +29,12 @@ function App() {
         <Route path="/shop" element={<Shop/>}/>
         <Route path="/cart" element={<Cart/>}/>
      </Routes>
+     <Route path="/dashboard" element={<PrivateRoute/>}>
+        <Route path="user" element={<UserDashboard/>}/>
+     </Route>
+     <Route path="/dashboard" element={<AdminRoute/>}>
+        <Route path="user" element={<AdminDashboard/>}/>
+     </Route>
      </BrowserRouter>
     </>
   )

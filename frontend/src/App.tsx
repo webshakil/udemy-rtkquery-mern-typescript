@@ -14,12 +14,9 @@ import AdminRoute from './components/routes/AdminRoute'
 import AdminDashboard from './pages/admin/Dashboard'
 
 function App() {
-
-
   return (
     <>
     <BrowserRouter>
-    
      <Menu/>
      <Toaster position="top-center" toastOptions={{style: {background: '#4CAF50',color: '#FFFFFF'},duration: 5000}}/> 
      <Routes>
@@ -28,13 +25,14 @@ function App() {
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/shop" element={<Shop/>}/>
         <Route path="/cart" element={<Cart/>}/>
+     
+          <Route path="/dashboard" element={<PrivateRoute/>}>
+              <Route path="user" element={<UserDashboard/>}/>
+          </Route>
+          <Route path="/dashboard" element={<AdminRoute/>}>
+              <Route path="admin" element={<AdminDashboard/>}/>
+          </Route>
      </Routes>
-     <Route path="/dashboard" element={<PrivateRoute/>}>
-        <Route path="user" element={<UserDashboard/>}/>
-     </Route>
-     <Route path="/dashboard" element={<AdminRoute/>}>
-        <Route path="user" element={<AdminDashboard/>}/>
-     </Route>
      </BrowserRouter>
     </>
   )

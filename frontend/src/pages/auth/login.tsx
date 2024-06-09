@@ -4,7 +4,7 @@ import { useLoginMutation } from "../../redux/api/userAPI";
 import { userExist, userNotExist } from "../../redux/reducer/userReducer";
 import { useDispatch } from "react-redux";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 const LoginPage = () => {
   const [formData, setFormData]= useState({
     email:"",
@@ -12,6 +12,7 @@ const LoginPage = () => {
   })
  const [login] =useLoginMutation()
  const dispatch = useDispatch();
+ const navigate = useNavigate()
   const handleChange=(e: ChangeEvent<HTMLInputElement>)=>{
       const {name, value}= e.target;
       setFormData((prevFormData)=>({
@@ -24,7 +25,6 @@ const LoginPage = () => {
     try {
       const res = await login(formData); 
       console.log("res===>", res); 
-  
       if ("data" in res) {
         const userData = res.data?.user; 
         const token = res.data?.token;
@@ -37,8 +37,8 @@ const LoginPage = () => {
             email: '',
             password: '',
           });
-  
-          
+          navigate(`/dashboard/${userData.role==='admin'? "admin":'user'}`)
+                   
         } else {
           toast.error("Invalid response data")
         }

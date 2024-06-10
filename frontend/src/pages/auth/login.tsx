@@ -24,7 +24,7 @@ const LoginPage = () => {
     e.preventDefault(); 
     try {
       const res = await login(formData); 
-      console.log("res===>", res); 
+     
       if ("data" in res) {
         const userData = res.data?.user; 
         const token = res.data?.token;

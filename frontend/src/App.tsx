@@ -12,6 +12,8 @@ import PrivateRoute from './components/routes/PrivateRoutes'
 import UserDashboard from './pages/user/Dashboard'
 import AdminRoute from './components/routes/AdminRoute'
 import AdminDashboard from './pages/admin/Dashboard'
+import CreateProduct from './pages/admin/CreateProduct'
+import AdminProduct from './pages/admin/Products'
 
 function App() {
   return (
@@ -31,6 +33,9 @@ function App() {
           </Route>
           <Route path="/dashboard" element={<AdminRoute/>}>
               <Route path="admin" element={<AdminDashboard/>}/>
+              <Route path="admin/products" element={<AdminProduct/>}/>
+              <Route path="admin/createproduct" element={<CreateProduct/>}/>
+          
           </Route>
      </Routes>
      </BrowserRouter>

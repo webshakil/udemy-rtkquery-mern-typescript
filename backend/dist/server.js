@@ -43,6 +43,7 @@ app.use("/api/v1/users", user_1.default);
 app.use("/api/v1/product", product_1.default);
 app.use("/api/v1/order", order_1.default);
 app.use("/api/v1/payment", payment_1.default);
+app.use("/uploads", express_1.default.static("uploads"));
 const port = process.env.PORT || 7000;
 app.listen(port, () => {
     console.log(`Server is running on ${port}`);

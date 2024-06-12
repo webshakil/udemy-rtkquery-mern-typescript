@@ -37,6 +37,7 @@ app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/product", productRoutes)
 app.use("/api/v1/order", orderRoutes)
 app.use("/api/v1/payment", paymentRoutes)
+app.use("/uploads", express.static("uploads"))
 
 const port = process.env.PORT || 7000;
 app.listen(port, ()=>{

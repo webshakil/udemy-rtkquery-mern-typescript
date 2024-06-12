@@ -23,7 +23,7 @@ function App() {
   const dispatch = useDispatch();
   const userString = localStorage.getItem("auth");
   const user = userString? JSON.parse(userString): null;
-  const PageNotFound =()=>{
+  const PageNotFound=()=>{
     return(<div className="flex justify-center items-center h-screen">
       <h1 className='text-4xl font-blod'>404 | Page Not Found</h1>
     </div>)

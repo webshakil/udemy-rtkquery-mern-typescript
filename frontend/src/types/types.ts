@@ -8,3 +8,11 @@ export type User ={
     token?:string;
     isBanned?:boolean
 }
+export type Product={
+    name: string;
+    price: number;
+    stock: number;
+    category:string;
+    photo:string;
+    _id:string
+}

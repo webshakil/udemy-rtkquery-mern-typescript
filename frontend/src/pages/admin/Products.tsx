@@ -2,9 +2,21 @@ import { useSelector } from "react-redux";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import AdminMenu from "../../components/nav/AdminMenu";
-import { RootState } from "../../redux/store";
+import { RootState, server } from "../../redux/store";
+import { useAllProductsQuery } from "../../redux/api/productAPI";
+import { Product } from "../../types/types";
 export default function AdminProduct() {
   const { user } = useSelector((state: RootState) => state.userReducer);
+  const {data, isLoading, isError}= useAllProductsQuery("")
+  //Handling loading and error state
+  if(isLoading){
+    return <div>Loading</div>
+  }
+  if(isError || !data || !data.products){
+    return <div>Error loading products</div>
+  }
+  const products :Product[] =data.products
+
    return (
     <div className="w-full h-full flex flex-col">
       <div className="flex-grow-0 h-1/3 bg-green-800 flex items-center justify-center text-5xl font-semibold pb-12 pt-16">
@@ -34,21 +46,22 @@ export default function AdminProduct() {
                   </tr>
                 </thead>
                 <tbody>
-               
-                    <tr  className="border-b">
+             {products.map((product:Product)=>(
+                    <tr key={product._id} className="border-b">
                       <td className="py-2 px-4 border-r border-b border-black">
-                        <img src="" className="w-12 h-12 object-cover rounded-md" />
+                        <img src={`${server}/${product.photo}`} className="w-12 h-12 object-cover rounded-md" />
                       </td>
-                      <td className="py-2 px-4 border-r border-b border-black">Name</td>
-                      <td className="py-2 px-4 border-r border-b border-black">Price</td>
-                      <td className="py-2 px-4 border-r border-b border-black">Stock</td>
-                      <td className="py-2 px-4 border-r border-b border-black">Category</td>
+                      <td className="py-2 px-4 border-r border-b border-black">{product.name}</td>
+                      <td className="py-2 px-4 border-r border-b border-black">{product.price}</td>
+                      <td className="py-2 px-4 border-r border-b border-black">{product.stock}</td>
+                      <td className="py-2 px-4 border-r border-b border-black">{product.category}</td>
                       
                       <td className="py-2 px-4 border-b border-black">
                         <Link to=""><button className="text-blue-500 hover:underline mr-2 text-lg"><FaEye /></button></Link>
                         
                       </td>
                     </tr>
+                  ))}
              
                 </tbody>
               </table>
@@ -59,3 +72,5 @@ export default function AdminProduct() {
     </div>
   );
 }
+
+

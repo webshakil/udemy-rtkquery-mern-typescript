@@ -14,8 +14,28 @@ import AdminRoute from './components/routes/AdminRoute'
 import AdminDashboard from './pages/admin/Dashboard'
 import CreateProduct from './pages/admin/CreateProduct'
 import AdminProduct from './pages/admin/Products'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { userExist, userNotExist } from './redux/reducer/userReducer'
+
 
 function App() {
+  const dispatch = useDispatch();
+  const userString = localStorage.getItem("auth");
+  const user = userString? JSON.parse(userString): null;
+  const PageNotFound =()=>{
+    return(<div className="flex justify-center items-center h-screen">
+      <h1 className='text-4xl font-blod'>404 | Page Not Found</h1>
+    </div>)
+  }
+  useEffect(()=>{
+    if(user){
+      dispatch(userExist(user))
+    }else{
+      dispatch(userNotExist())
+    }
+  }, [dispatch, user])
+ 
   return (
     <>
     <BrowserRouter>
@@ -37,6 +57,7 @@ function App() {
               <Route path="admin/createproduct" element={<CreateProduct/>}/>
           
           </Route>
+          <Route path="*" element={<PageNotFound/>}/>
      </Routes>
      </BrowserRouter>
     </>

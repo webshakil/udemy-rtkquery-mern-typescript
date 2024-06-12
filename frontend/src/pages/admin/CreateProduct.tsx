@@ -22,12 +22,7 @@ const CreateProduct = () => {
 
   const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | undefined = e.target.files?.[0];
-    console.log("file====>", file)
-
-    const reader: FileReader = new FileReader();
-    console.log("reader====>", reader)
-
-
+     const reader: FileReader = new FileReader();
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {

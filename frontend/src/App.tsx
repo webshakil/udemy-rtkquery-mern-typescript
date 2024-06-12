@@ -14,6 +14,7 @@ import AdminRoute from './components/routes/AdminRoute'
 import AdminDashboard from './pages/admin/Dashboard'
 import CreateProduct from './pages/admin/CreateProduct'
 import AdminProduct from './pages/admin/Products'
+import SingleProduct from './pages/admin/product'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { userExist, userNotExist } from './redux/reducer/userReducer'
@@ -55,7 +56,7 @@ function App() {
               <Route path="admin" element={<AdminDashboard/>}/>
               <Route path="admin/products" element={<AdminProduct/>}/>
               <Route path="admin/createproduct" element={<CreateProduct/>}/>
-          
+              <Route path="admin/product/:id" element={<SingleProduct/>}/>
           </Route>
           <Route path="*" element={<PageNotFound/>}/>
      </Routes>

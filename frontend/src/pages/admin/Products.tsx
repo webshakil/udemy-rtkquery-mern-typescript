@@ -57,7 +57,7 @@ export default function AdminProduct() {
                       <td className="py-2 px-4 border-r border-b border-black">{product.category}</td>
                       
                       <td className="py-2 px-4 border-b border-black">
-                        <Link to=""><button className="text-blue-500 hover:underline mr-2 text-lg"><FaEye /></button></Link>
+                        <Link to={`/dashboard/admin/product/${product._id}`}><button className="text-blue-500 hover:underline mr-2 text-lg"><FaEye /></button></Link>
                         
                       </td>
                     </tr>

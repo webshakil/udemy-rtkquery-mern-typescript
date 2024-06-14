@@ -7,6 +7,7 @@ import { IoLogOut } from "react-icons/io5";
 import { Badge } from "antd";
 const Menu = () => {
   const { user } = useSelector((state: RootState) => state.userReducer);
+  const {cartItems} = useSelector((state:RootState)=>state.cartReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,10 +31,11 @@ const Menu = () => {
           </Link>
           <div className="relative inline-block pt-2 pr-1">
             <Link to="/cart" className="text-white hover:text-gray-300 relative flex items-center">
-              <Badge  showZero={true} >
+              <Badge  count={cartItems?.length>=1 ? cartItems.length :0 } showZero={true} >
                 <FaShoppingCart className="text-xl text-white" />
               </Badge>
             </Link>
+           
           </div>
 
           {user ? (
@@ -50,7 +52,7 @@ const Menu = () => {
               >
                 Order
               </Link>
-              
+             
               <span
                 className="cursor-pointer text-white hover:text-gray-300"
                 onClick={logout}
@@ -66,6 +68,7 @@ const Menu = () => {
               <Link to="/login" className="text-white hover:text-gray-300 font-semibold uppercase">
                 Login
               </Link>
+             
             </>
           )}
          
@@ -87,3 +90,5 @@ const Menu = () => {
 };
 
 export default Menu;
+
+   

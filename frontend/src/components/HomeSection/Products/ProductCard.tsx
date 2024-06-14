@@ -1,14 +1,22 @@
 import React from "react";
 import Button from "../Shared/Button";
-import {  Product } from "../../../types/types";
+import {  CartItem, Product } from "../../../types/types";
 import { server } from "../../../redux/store";
+import { addToCart } from "../../../redux/reducer/cartReducer";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 interface ProductCardProps {
   data: Product[];
 }
+
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
- const addToCartHandler = () => {
-   
+  const dispatch = useDispatch()
+ const addToCartHandler = (cartItem:CartItem) => {
+  
+   if(cartItem.stock<1) return toast.error("Out of Stock")
+    dispatch(addToCart(cartItem));
+    toast.success("Added to Cart")
   };
   return (
     <div className="mb-10">
@@ -34,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
                   bgColor={"bg-primary"}
                   textColor={"text-white"}
                   onClick={() =>
-                    addToCartHandler()
+                    addToCartHandler({productId:product._id, price: product.price,name: product.name,photo:product.photo,stock:product.stock,quantity:1})
                   }
                 />
               </div>

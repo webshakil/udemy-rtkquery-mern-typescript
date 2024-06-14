@@ -3,6 +3,9 @@ import { useCategoriesQuery, useSearchProductsQuery } from '../redux/api/product
 import { CustomError } from '../types/api-types';
 import toast from 'react-hot-toast';
 import { server } from '../redux/store';
+import { CartItem } from '../types/types';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/reducer/cartReducer';
 const ShopPage: React.FC = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
@@ -10,9 +13,7 @@ const ShopPage: React.FC = () => {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   
-  const addToCartHandler = () => {
-   
-  };
+ const dispatch = useDispatch();
   const {
     data: categoriesResponse,
     isLoading: loadingCategories,
@@ -47,6 +48,12 @@ const ShopPage: React.FC = () => {
     const err = productError as CustomError;
     toast.error(err.data.message);
   }
+  const addToCartHandler = (cartItem:CartItem) => {
+    
+     if(cartItem.stock<1) return toast.error("Out of Stock")
+      dispatch(addToCart(cartItem));
+      toast.success("Added to Cart")
+    };
   return (
     <div className="flex mt-16">
       <div className="w-3/12">
@@ -122,7 +129,7 @@ const ShopPage: React.FC = () => {
                   <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
                   <p className="text-gray-600">Price: ${product.price}</p>
                   <button   onClick={() =>
-                    addToCartHandler()
+                    addToCartHandler({productId:product._id, price: product.price,name: product.name,photo:product.photo,stock:product.stock,quantity:1})
                   } className="bg-blue-500 text-white px-3 py-2 rounded-md mt-2 ">
                     Add to Cart
                   </button>

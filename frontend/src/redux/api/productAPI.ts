@@ -1,8 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   AllProductsResponse,
+  CategoriesResponse,
   MessageResponse,
   ProductResponse,
+  SearchProductsRequest,
+  SearchProductsResponse,
 } from "../../types/api-types";
 import { RootState } from "../store";
 
@@ -44,6 +47,23 @@ export const productAPI = createApi({
         body: formData,
       }),
     }),
+    categories: builder.query<CategoriesResponse, string>({
+      query: () => `categories`,
+     
+    }),
+//http://localhost:9000/api/v1/product/all?search=laptop&page=1&price=1000&sort=asc&category=electronics
+    searchProducts: builder.query<SearchProductsResponse,SearchProductsRequest>({
+      query: ({ price, search, sort, category, page }) => {
+        let base = `all?search=${search}&page=${page}`;
+
+        if (price) base += `&price=${price}`;
+        if (sort) base += `&sort=${sort}`;
+        if (category) base += `&category=${category}`;
+
+        return base;
+      },
+      
+    }),
  
     updateProduct: builder.mutation<MessageResponse, {formData: FormData; productId:string}>({
       query: ({ formData,productId }) => ({
@@ -67,6 +87,8 @@ export const productAPI = createApi({
 export const {
   useLatestProductsQuery,
   useAllProductsQuery,
+  useCategoriesQuery,
+  useSearchProductsQuery,
   useNewProductMutation,
   useProductDetailsQuery,
   useUpdateProductMutation,

@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useCategoriesQuery, useSearchProductsQuery } from '../redux/api/productAPI';
+import { CustomError } from '../types/api-types';
+import toast from 'react-hot-toast';
+import { server } from '../redux/store';
 const ShopPage: React.FC = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
@@ -7,14 +11,42 @@ const ShopPage: React.FC = () => {
   const [page, setPage] = useState(1);
   
   const addToCartHandler = () => {
-
+   
   };
-
+  const {
+    data: categoriesResponse,
+    isLoading: loadingCategories,
+    isError,
+    error,
+  } = useCategoriesQuery("");
+  
+  const {
+    isLoading: productLoading,
+    data: searchedData,
+    isError: productIsError,
+    error: productError,
+  } = useSearchProductsQuery({
+    search,
+    sort,
+    category,
+    page,
+    price: maxPrice,
+  });
+  
 
   const isPrevPage = page > 1;
+  
   const isNextPage = page < 4;
+  
 
-
+  if (isError) {
+    const err = error as CustomError;
+    toast.error(err.data.message);
+  }
+  if (productIsError) {
+    const err = productError as CustomError;
+    toast.error(err.data.message);
+  }
   return (
     <div className="flex mt-16">
       <div className="w-3/12">
@@ -39,22 +71,12 @@ const ShopPage: React.FC = () => {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="">ALL</option>
-             
-                  
-                  <option value="">ALL</option>
-    <option value="electronics">Electronics</option>
-    <option value="fashion">Fashion</option>
-    <option value="home-garden">Home & Garden</option>
-    <option value="sports">Sports</option>
-    <option value="toys">Toys</option>
-    <option value="beauty">Beauty</option>
-    <option value="books">Books</option>
-    <option value="automotive">Automotive</option>
-    <option value="music">Music</option>
-    <option value="health">Health</option>
-    <option value="outdoors">Outdoors</option>
-               
-               
+              {!loadingCategories &&
+                categoriesResponse?.categories.map((i) => (
+                  <option key={i} value={i}>
+                    {i.toUpperCase()}
+                  </option>
+                ))}
             </select>
           </div>
           <div>
@@ -85,16 +107,20 @@ const ShopPage: React.FC = () => {
           />
         </div>
 
+        {productLoading ? (
+          <p>Loading.......</p>
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-           
-                <div  className="bg-white p-4 rounded-md shadow-md ">
+            {searchedData && searchedData.products ? (
+              searchedData.products.map((product) => (
+                <div key={product._id} className="bg-white p-4 rounded-md shadow-md ">
                   <img
-                    src=""
-                    alt=""
+                    src={`${server}/${product.photo}`}
+                    alt={product.name}
                     className="w-full h-32 object-cover mb-4"
                   />
-                  <h3 className="text-lg font-semibold mb-2">Name</h3>
-                  <p className="text-gray-600">Price</p>
+                  <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                  <p className="text-gray-600">Price: ${product.price}</p>
                   <button   onClick={() =>
                     addToCartHandler()
                   } className="bg-blue-500 text-white px-3 py-2 rounded-md mt-2 ">
@@ -102,22 +128,28 @@ const ShopPage: React.FC = () => {
                   </button>
                   
                 </div>
+                
+              ))
+            ) : (
+              <p>No products found.</p>
+            )}
             
           </div>
-     
-
-
+        )}
+{/* for pagination */}
+{searchedData && searchedData.totalPage >= 1 && (
   <article className="p-4 flex items-center justify-center">
     <button
       className={`px-4 py-2 rounded-md ${!isPrevPage ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-700'}`}
       disabled={!isPrevPage}
+      //prev represents the current state value of page
       onClick={() => setPage((prev) => prev - 1)}
       style={{ marginRight: '8px' }}
     >
       Prev
     </button>
     <span className="text-lg font-bold">
-     
+      {page} of {searchedData.totalPage}
     </span>
     <button
       className={`px-4 py-2 rounded-md ${!isNextPage ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-700'}`}
@@ -128,6 +160,7 @@ const ShopPage: React.FC = () => {
       Next
     </button>
   </article>
+)}
       </div>
      
     </div>
@@ -135,3 +168,4 @@ const ShopPage: React.FC = () => {
 };
 
 export default ShopPage;
+

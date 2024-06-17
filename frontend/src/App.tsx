@@ -18,6 +18,7 @@ import SingleProduct from './pages/admin/product'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { userExist, userNotExist } from './redux/reducer/userReducer'
+import Shipping from './pages/user/Shipping'
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
      
           <Route path="/dashboard" element={<PrivateRoute/>}>
               <Route path="user" element={<UserDashboard/>}/>
+              <Route path="user/shipping" element={<Shipping/>}/>
           </Route>
           <Route path="/dashboard" element={<AdminRoute/>}>
               <Route path="admin" element={<AdminDashboard/>}/>

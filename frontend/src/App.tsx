@@ -19,6 +19,10 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { userExist, userNotExist } from './redux/reducer/userReducer'
 import Shipping from './pages/user/Shipping'
+import Orders from './pages/user/Orders'
+import CheckOut from './pages/user/CheckOut'
+
+
 
 
 function App() {
@@ -49,10 +53,14 @@ function App() {
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/shop" element={<Shop/>}/>
         <Route path="/cart" element={<Cart/>}/>
+        
+
      
           <Route path="/dashboard" element={<PrivateRoute/>}>
               <Route path="user" element={<UserDashboard/>}/>
               <Route path="user/shipping" element={<Shipping/>}/>
+              <Route path="user/orders" element={<Orders/>}/>
+              <Route path="user/pay" element={<CheckOut/>}/>
           </Route>
           <Route path="/dashboard" element={<AdminRoute/>}>
               <Route path="admin" element={<AdminDashboard/>}/>

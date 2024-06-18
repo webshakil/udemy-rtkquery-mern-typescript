@@ -21,7 +21,7 @@ const Shipping = () => {
         const {data}= await axios.post(
           `${server}/api/v1/payment/create`,
           {
-            amout: total,
+            amount: total,
           },
           {
             headers:{

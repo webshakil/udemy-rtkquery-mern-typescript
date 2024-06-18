@@ -59,7 +59,7 @@ export const cartReducer = createSlice({
       state.discount = action.payload;
     },
     saveShippingInfo: (state, action: PayloadAction<ShippingInfo>) => {
-      console.log("Saving Shipping Info:", action.payload);
+     
       state.shippingInfo = action.payload;
     },
    

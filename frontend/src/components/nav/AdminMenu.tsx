@@ -27,7 +27,7 @@ export default function AdminMenu() {
         <li>
           <NavLink
             className="block py-2 px-4 transition duration-300 ease-in-out hover:bg-gray-100 hover:shadow-md"
-            to="/dashboard/admin/orders"
+            to="/dashboard/admin/transaction"
           >
             <span className="font-bold">Transaction</span>
           </NavLink>

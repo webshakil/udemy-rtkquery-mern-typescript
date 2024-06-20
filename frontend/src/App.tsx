@@ -21,6 +21,8 @@ import { userExist, userNotExist } from './redux/reducer/userReducer'
 import Shipping from './pages/user/Shipping'
 import Orders from './pages/user/Orders'
 import CheckOut from './pages/user/CheckOut'
+import Transaction from './pages/admin/transaction'
+
 
 
 function App() {
@@ -65,6 +67,7 @@ function App() {
               <Route path="admin/products" element={<AdminProduct/>}/>
               <Route path="admin/createproduct" element={<CreateProduct/>}/>
               <Route path="admin/product/:id" element={<SingleProduct/>}/>
+              <Route path="admin/transaction" element={<Transaction/>}/>
           </Route>
           <Route path="*" element={<PageNotFound/>}/>
      </Routes>

@@ -23,8 +23,6 @@ import Orders from './pages/user/Orders'
 import CheckOut from './pages/user/CheckOut'
 
 
-
-
 function App() {
   const dispatch = useDispatch();
   const userString = localStorage.getItem("auth");

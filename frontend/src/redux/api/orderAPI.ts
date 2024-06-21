@@ -39,14 +39,14 @@ export const orderApi = createApi({
         url: `${orderId}?id=${userId}`,
         method: "PUT",
       }),
-      invalidatesTags: ["orders"],
+      
     }),
     deleteOrder: builder.mutation<MessageResponse, UpdateOrderRequest>({
       query: ({ userId, orderId }) => ({
         url: `${orderId}?id=${userId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["orders"],
+      
     }),
     // myOrders: builder.query<AllOrdersResponse, string>({
     //   query: (id) => `my?id=${id}`,
@@ -57,7 +57,7 @@ export const orderApi = createApi({
           url: `my?id=${id}`,
           method: "GET",
         }),
-      providesTags: ["orders"],
+      
     }),
 
 
@@ -67,12 +67,12 @@ export const orderApi = createApi({
           url: "all",
           method: "GET",
         }),
-      providesTags: ["orders"],
+      
     }),
     
     orderDetails: builder.query<OrderDetailsResponse, string>({
       query: (id) => id,
-      providesTags: ["orders"],
+      
     }),
   }),
 });

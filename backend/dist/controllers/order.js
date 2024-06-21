@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOrder = exports.getSingleOrder = exports.allOrders = exports.myOrders = exports.newOrder = void 0;
+exports.processOrder = exports.deleteOrder = exports.getSingleOrder = exports.allOrders = exports.myOrders = exports.newOrder = void 0;
 const error_1 = require("../middleware/error");
 const utility_class_1 = __importDefault(require("../utils/utility-class"));
 const order_1 = require("../models/order");
@@ -39,7 +39,6 @@ exports.myOrders = (0, error_1.TryCatach)(async (req, res, next) => {
 });
 exports.allOrders = (0, error_1.TryCatach)(async (req, res, next) => {
     const orders = await order_1.Order.find().populate("user", "name");
-    //const orders = await Order.find()
     return res.status(200).json({
         success: true,
         orders,
@@ -47,7 +46,14 @@ exports.allOrders = (0, error_1.TryCatach)(async (req, res, next) => {
 });
 exports.getSingleOrder = (0, error_1.TryCatach)(async (req, res, next) => {
     const { id } = req.params;
+    console.log("Order ID:", id); // Add this line to debug the value of id
+    if (!id) {
+        return next(new utility_class_1.default("Order ID is required", 400));
+    }
     const order = await order_1.Order.findById(id).populate("user", "name");
+    if (!order) {
+        return next(new utility_class_1.default("Order Not Found", 404));
+    }
     return res.status(200).json({
         success: true,
         order,
@@ -55,12 +61,43 @@ exports.getSingleOrder = (0, error_1.TryCatach)(async (req, res, next) => {
 });
 exports.deleteOrder = (0, error_1.TryCatach)(async (req, res, next) => {
     const { id } = req.params;
+    console.log("Order ID:", id); // Add this line to debug the value of id
+    if (!id) {
+        return next(new utility_class_1.default("Order ID is required", 400));
+    }
     const order = await order_1.Order.findById(id);
-    if (!order)
+    if (!order) {
         return next(new utility_class_1.default("Order Not Found", 404));
+    }
     await order.deleteOne();
     return res.status(200).json({
         success: true,
-        message: "Order Deelted Successfully"
+        message: "Order Deleted Successfully"
+    });
+});
+exports.processOrder = (0, error_1.TryCatach)(async (req, res, next) => {
+    const { id } = req.params;
+    if (!id) {
+        return next(new utility_class_1.default("Order ID is required", 400));
+    }
+    const order = await order_1.Order.findById(id);
+    if (!order) {
+        return next(new utility_class_1.default("Order Not Found", 404));
+    }
+    switch (order.status) {
+        case "Processing":
+            order.status = "Shipped";
+            break;
+        case "Shipped":
+            order.status = "Delivered";
+            break;
+        default:
+            order.status = "Delivered";
+            break;
+    }
+    await order.save();
+    return res.status(200).json({
+        success: true,
+        message: "Order Processed Successfully",
     });
 });

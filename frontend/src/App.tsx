@@ -22,6 +22,7 @@ import Shipping from './pages/user/Shipping'
 import Orders from './pages/user/Orders'
 import CheckOut from './pages/user/CheckOut'
 import Transaction from './pages/admin/transaction'
+import TransactionManagement from './pages/admin/transactionManagement'
 
 
 
@@ -68,6 +69,7 @@ function App() {
               <Route path="admin/createproduct" element={<CreateProduct/>}/>
               <Route path="admin/product/:id" element={<SingleProduct/>}/>
               <Route path="admin/transaction" element={<Transaction/>}/>
+              <Route path="admin/transaction/:id" element={<TransactionManagement/>}/>
           </Route>
           <Route path="*" element={<PageNotFound/>}/>
      </Routes>

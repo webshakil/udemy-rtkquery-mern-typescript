@@ -12,5 +12,5 @@ routes.post("/login", user_1.login);
 routes.get("/all", auth_1.requireSignIn, auth_1.isAdmin, user_1.getAllusers);
 routes.get("/:id", auth_1.requireSignIn, auth_1.isAdmin, user_1.singleUser);
 routes.delete("/:id", auth_1.requireSignIn, auth_1.isAdmin, user_1.deleteUser);
-//routes.put("/:id", requireSignIn, isAdmin, updateUser)
+routes.put("/:id", auth_1.requireSignIn, auth_1.isAdmin, user_1.updateUser);
 exports.default = routes;

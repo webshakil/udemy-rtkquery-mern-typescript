@@ -175,7 +175,7 @@ export const getAllusers = TryCatach(async (req: Request, res: Response) => {
           totalPages: Math.ceil(count / limit),
           currentPage: page,
           previousPage: page - 1 > 0 ? page - 1 : null,
-          nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null // Corrected pagination calculation
+          nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null 
       }
   });
 });

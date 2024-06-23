@@ -23,6 +23,7 @@ import Orders from './pages/user/Orders'
 import CheckOut from './pages/user/CheckOut'
 import Transaction from './pages/admin/transaction'
 import TransactionManagement from './pages/admin/transactionManagement'
+import AdminUser from './pages/admin/users'
 
 
 
@@ -67,6 +68,7 @@ function App() {
               <Route path="admin" element={<AdminDashboard/>}/>
               <Route path="admin/products" element={<AdminProduct/>}/>
               <Route path="admin/createproduct" element={<CreateProduct/>}/>
+              <Route path="admin/users" element={<AdminUser/>}/>
               <Route path="admin/product/:id" element={<SingleProduct/>}/>
               <Route path="admin/transaction" element={<Transaction/>}/>
               <Route path="admin/transaction/:id" element={<TransactionManagement/>}/>

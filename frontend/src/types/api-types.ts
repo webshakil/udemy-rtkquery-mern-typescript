@@ -47,7 +47,7 @@ export type SearchProductsResponse = AllProductsResponse & {
       currentPage: number;
       previousPage: number | null;
       nextPage: number | null;
-      totalUsers?:number | null
+      totalUser?:number | null
     };
   };
 
@@ -73,5 +73,10 @@ export type SearchProductsResponse = AllProductsResponse & {
     discount: number;
     total: number;
     user: string;
+  };
+
+  export type UserResponse = {
+    success: boolean;
+    user: User;
   };
     

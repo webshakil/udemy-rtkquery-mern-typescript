@@ -25,19 +25,21 @@ export const productAPI = createApi({
         return headers;
       },
   }),
- 
+  tagTypes:["product"],
   endpoints: (builder) => ({
     latestProducts: builder.query<AllProductsResponse, string>({
-      query: () => "latest",     
+      query: () => "latest", 
+      providesTags:["product"]
     }),
   
      allProducts: builder.query<AllProductsResponse, string>({
       query: () => "all-products",
-      
+      providesTags:["product"]
     }),
 
     productDetails: builder.query<ProductResponse, string>({
       query: (id) => id,
+      providesTags:["product"]
     }),
 
     newProduct: builder.mutation<MessageResponse, FormData>({
@@ -46,10 +48,11 @@ export const productAPI = createApi({
         method: "POST",
         body: formData,
       }),
+     invalidatesTags:["product"]
     }),
     categories: builder.query<CategoriesResponse, string>({
       query: () => `categories`,
-     
+      providesTags:["product"]
     }),
 //http://localhost:9000/api/v1/product/all?search=laptop&page=1&price=1000&sort=asc&category=electronics
     searchProducts: builder.query<SearchProductsResponse,SearchProductsRequest>({
@@ -62,7 +65,7 @@ export const productAPI = createApi({
 
         return base;
       },
-      
+      providesTags:["product"]
     }),
  
     updateProduct: builder.mutation<MessageResponse, {formData: FormData; productId:string}>({
@@ -71,7 +74,9 @@ export const productAPI = createApi({
         method: "PUT",
         body: formData,
       }),
-     
+      invalidatesTags:["product"]
+
+
     }),
 
     deleteProduct: builder.mutation<MessageResponse, {productId: string}>({
@@ -79,7 +84,7 @@ export const productAPI = createApi({
         url: productId,
         method: "DELETE",
       }),
-     
+      invalidatesTags:["product"]
     }),
   }),
 });

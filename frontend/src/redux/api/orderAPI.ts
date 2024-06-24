@@ -24,7 +24,7 @@ export const orderApi = createApi({
     },
 
   }),
-  tagTypes: ["orders"],
+  tagTypes:["order"],
   endpoints: (builder) => ({
     newOrder: builder.mutation<MessageResponse, NewOrderRequest>({
       query: (order) => ({
@@ -32,32 +32,29 @@ export const orderApi = createApi({
         method: "POST",
         body: order,
       }),
-      invalidatesTags: ["orders"],
+    invalidatesTags:["order"],
     }),
     updateOrder: builder.mutation<MessageResponse, UpdateOrderRequest>({
       query: ({ userId, orderId }) => ({
         url: `${orderId}?id=${userId}`,
         method: "PUT",
       }),
-      
+      invalidatesTags:["order"],
     }),
     deleteOrder: builder.mutation<MessageResponse, UpdateOrderRequest>({
       query: ({ userId, orderId }) => ({
         url: `${orderId}?id=${userId}`,
         method: "DELETE",
       }),
-      
+      invalidatesTags:["order"],
     }),
-    // myOrders: builder.query<AllOrdersResponse, string>({
-    //   query: (id) => `my?id=${id}`,
-    //   providesTags: ["orders"],
-    // }),
+   
       myOrders: builder.query<AllOrdersResponse, string>({
         query: (id) => ({
           url: `my?id=${id}`,
           method: "GET",
         }),
-      
+      providesTags:["order"]
     }),
 
 
@@ -67,12 +64,12 @@ export const orderApi = createApi({
           url: "all",
           method: "GET",
         }),
-      
+      providesTags:["order"]
     }),
     
     orderDetails: builder.query<OrderDetailsResponse, string>({
       query: (id) => id,
-      
+      providesTags:["order"]
     }),
   }),
 });

@@ -1,0 +1,57 @@
+/* Add this CSS in a separate file or inline within your component */
+/* For example, you can create a new file: src/styles.css */
+
+/* Styles for the price range slider */
+.input-range {
+    width: 100%;
+  }
+  
+  .input-range::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: #ddd;
+    border-radius: 1px;
+  }
+  
+  .input-range::-webkit-slider-thumb {
+    position: relative;
+    appearance: none;
+    height: 18px;
+    width: 18px;
+    background: #3490dc;
+    border: 1px solid #3490dc;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -9px;
+  }
+  
+  .input-range::-moz-range-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    background: #ddd;
+    border-radius: 1px;
+  }
+  
+  .input-range::-moz-range-thumb {
+    position: relative;
+    appearance: none;
+    height: 18px;
+    width: 18px;
+    background: #3490dc;
+    border: 1px solid #3490dc;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -9px;
+  }
+  
+  /* Additional styles for price range labels */
+  .price-range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+  }
+  
